@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Prevent scrolling */
+}
+
+form {
+    max-width: 450px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+#input_date{
+    display: flex;
+}
+#name{
+    width: 100%;
+}
+.form_element {
+    margin-bottom: 15px;
+    position: relative;
+    width: 95%;
+}
+
+.form_element label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    /* text-align: center; */
+}
+
+.form_element input {
+    width: auto;
+    padding: 10px;
+    margin: 2px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#btn {
+    padding: 15px 30px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+#btn-back{
+    padding: 11px 30px;
+    background-color: #d76208;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#btn:hover {
+    background-color: #2980b9;
+}
+/* .btn_div{
+    display: flex;
+    justify-content: center;
+} */
+
+@media (max-width: 600px) {
+    .form_element input {
+        padding: 10px;
+    }
+
+    #btn {
+        padding: 12px 25px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+    <form action="">
+        <div class="form_element">
+            <label for="name">Name</label>
+            <input type="text" id="name" required placeholder="Enter Your Name">
+        </div>
+        <div id="input_date">
+            <div class="form_element">
+                <label for="DD">DD</label>
+                <input type="number" id="DD" required min="1" max="31" placeholder="DD">
+            </div>
+            <div class="form_element">
+                <label for="MM">MM</label>
+                <input type="number" id="MM" required min="1" max="12" placeholder="MM">
+            </div>
+            <div class="form_element">
+                <label for="YYYY">YYYY</label>
+                <input type="number" id="YYYY" required min="1900" max="9999" placeholder="YYYY">
+            </div>
+        </div>
+            <div class="form_element btn_div">
+                <button id="btn" type="button">Save</button>
+                <button id="btn-back" type="button">Back</button>
+        </div>
+    </form>
+
+    <script>
+
+        if(localStorage.getItem("First")== "1"){
+            window.location.href = "display.html";
+        }
+
+
+        const name1 = document.getElementById("name");
+        const DD = document.getElementById("DD");
+        const MM = document.getElementById("MM");
+        const YYYY = document.getElementById("YYYY");
+        const btn = document.getElementById("btn");
+
+        btn.addEventListener("click", () => {
+    const day = parseInt(DD.value);
+    const month = parseInt(MM.value);
+    const year = parseInt(YYYY.value);
+
+    if (isNaN(day) || isNaN(month) || isNaN(year) || day < 1 || day > 31 || month < 1 || month > 12 || year < 1900 || year > 9999) {
+        // Invalid input, change button color to red
+        btn.style.backgroundColor = "red";
+
+        // Revert to the original blue color after 500 milliseconds
+        setTimeout(() => {
+            btn.style.backgroundColor = "#3498db";
+        }, 200);
+
+        return;
+    }
+
+    let FM = localStorage.getItem("Form_NO");
+    if (FM == null) {
+        FM = 1;
+    } else {
+        FM++;
+    }
+
+    localStorage.setItem("Form_NO", FM);
+    localStorage.setItem("Name" + FM, name1.value);
+    localStorage.setItem("DD" + FM, DD.value);
+    localStorage.setItem("MM" + FM, MM.value);
+    localStorage.setItem("YYYY" + FM, YYYY.value);
+
+    // Delay the redirection by 500 milliseconds (0.5 seconds)
+    setTimeout(() => {
+        window.location.href = "display.html";
+    }, 500);
+});
+
+const back = document.getElementById("btn-back");
+back.addEventListener("click",()=>{
+    window.location.href = "display.html";
+})
+
+localStorage.setItem("First","1");
+
+    </script>
+</body>
+
+</html>
